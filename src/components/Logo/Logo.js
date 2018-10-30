@@ -8,14 +8,13 @@ const Logo = () => {
               options={{ max: 25,speed:2000 }} 
               style={{ height: 200, width: 200, }} >
             <Tilt className="Tilt pa3" 
-                options={{ max: 50, scale:1.3, speed:2000,perspective:700, }} 
+                options={{ max: 50, scale:1.2, speed:2000,perspective:700, }} 
                 style={{ height: 200, width: 200 }} >
                 <div className="Tilt-inner"> 
-                   <img  src={brain}/>
+                   <img alt="brain" src={brain}/>
                 </div>
             </Tilt>
         </Tilt>
     );
 }
-
 export default Logo;
