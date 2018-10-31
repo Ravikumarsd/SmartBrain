@@ -2,3 +2,12 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-radius: 5px;
 }
+
+.bounding-box{
+    position: absolute;
+    box-shadow: inset 0 0 0 3px #149df2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    cursor: pointer;
+}
