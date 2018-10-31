@@ -7,17 +7,19 @@ import Particles from 'react-particles-js';
 import { particles } from './particles'
 import Clarifai  from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+import Signin from './components/Signin/Signin';
+import Register from './components/Register/Register';
 
 const app = new Clarifai.App({
   apiKey: '3e507f749cfa4015afa4854812165b38'
  });
-
 
 class App extends Component {
   state={
     input:'',
     imageURL:'',
     box:{},
+    route:'signin'
   }
 
   calculateFaceLocation = (data) => {
@@ -43,26 +45,44 @@ class App extends Component {
   }
 
   onButtonClick = () =>{
-    this.setState({imageURL:this.state.input});
+    
+    const {input} = this.state;
+    const {displayFace,calculateFaceLocation} = this;
 
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)     // Don't use this.state.imageURL
-    .then(response => this.displayFace(this.calculateFaceLocation(response)))
+    this.setState({imageURL:input});
+    app.models.predict(Clarifai.FACE_DETECT_MODEL, input)     // Don't use this.state.imageURL
+    .then(response => displayFace(calculateFaceLocation(response)))
      .catch(err => console.log(err)) 
   }
 
+  onRouteChange = (route) => {
+    this.setState({route:route})
+  }
+
   render() {
+    
+    const {onRouteChange,onInputChange,onButtonClick} = this;
+    const{route,imageURL,box} = this.state;
+    
     return (
       <div className="App" >
       <Particles className="particles"
                  params={particles}/>
-            <Navigation />
+        {(route === 'signin') ? 
+            <Signin onRouteChange={onRouteChange}/> 
+        : (route === 'register') ?  
+        <Register onRouteChange={onRouteChange}/> 
+        : <div>
+            <Navigation onRouteChange={onRouteChange} />
             <Rank/>
             <ImageLinkForm 
-                          onInputChange={this.onInputChange} 
-                          onButtonClick={this.onButtonClick}/>    
+                          onInputChange={onInputChange} 
+                          onButtonClick={onButtonClick}/>    
             <FaceRecognition 
-            box={this.state.box}
-            imageURL={this.state.imageURL}/> 
+            box={box}
+            imageURL={imageURL}/> 
+        </div>
+        }         
        </div>
     );
   }

@@ -3,17 +3,17 @@ import './Navigation.css';
 import Logo from '../Logo/Logo';
 import {withSize} from 'react-sizeme';
 import SmallLogo from '../Logo/SmallLogo';
-const Navigation = ({size}) => {
+
+const Navigation = ({size,onRouteChange}) => {
     return (
         <div className="card">
             <header className="black-80 tc pv2 avenir" >
               <h1 className="mt1 mb0 baskerville i b fw1 f1">Smart Brain</h1>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <nav className="mw7 bt mt2 mr3" >
-                        <a className="f3 f5-l link bg-animate black-80 b i  baskerville grow dim dib pa3 ph4-l" href="/">Home</a>
-                        <a className="f3 f5-l link bg-animate black-80 b i baskerville grow dim dib pa3 ph4-l" href="/portfolio">Signup</a>
-                        <a className="f3 f5-l link bg-animate black-80 b i baskerville grow dim dib pa3 ph4-l" href="/about">Signin</a>
-                    </nav>
+                        <p
+                            onClick={()=>onRouteChange('signin')}
+                            className="f3  link pointer underline bg-animate black-80 b i baskerville grow dim dib pa3 ph4-l" 
+                             >Sign out</p>
                 </div>
             </header>
             <div style={{height:'10px'}}>
