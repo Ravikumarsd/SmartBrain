@@ -9,8 +9,6 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 
-
-
 class App extends Component {
   state = {
     input:'',
@@ -66,7 +64,7 @@ class App extends Component {
     const {input} = this.state;
     const {displayFace,calculateFaceLocation} = this;
     this.setState({imageURL:input});
-    fetch('http://localhost:3000/imagesurl',{
+    fetch('https://salty-meadow-85226.herokuapp.com/imagesurl',{
           method:'post',
           headers:{'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -76,7 +74,7 @@ class App extends Component {
     .then(response => response.json())    
     .then(response => {
       if(response) {
-        fetch('http://localhost:3000/images',{
+        fetch('https://salty-meadow-85226.herokuapp.com/images',{
           method:'put',
           headers:{'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -101,9 +99,8 @@ class App extends Component {
     
     const {onRouteChange,onInputChange,onButtonClick} = this;
     const{route,imageURL,box} = this.state;
-    
     return (
-      <div className="App" >
+      <div className="App">
       <Particles className="particles"
                  params={particles}/>
         {(route === 'signin') ? 

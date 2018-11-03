@@ -28,4 +28,4 @@ const Navigation = ({size,onRouteChange}) => {
     );
 }
 
-export default withSize() (Navigation);
+export default withSize()(Navigation);
