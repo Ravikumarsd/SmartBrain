@@ -7,6 +7,7 @@ import { particles } from './particles'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
+import Rank from './components/Rank/Rank';
 
 class App extends Component {
   state = {
@@ -109,7 +110,9 @@ class App extends Component {
         <Register loadUser = {this.loadUser} onRouteChange={onRouteChange}/> 
         : <div>
             <Navigation onRouteChange={onRouteChange} />
-            
+              <Rank 
+                    name={user.name}
+                    entries={user.entries}/>
             <ImageLinkForm 
                           onInputChange={onInputChange} 
                           onButtonClick={onButtonClick}/>    
