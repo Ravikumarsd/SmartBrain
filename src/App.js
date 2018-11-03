@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
-import Navigation from './components/Navigation/Navigation'
+import Navigation from './components/Navigation/Navigation';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
-import Rank from './components/Rank/rank';
+import Rank from './components/Rank/Rank';
 import Particles from 'react-particles-js';
 import { particles } from './particles'
-import Clarifai  from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 
-const app = new Clarifai.App({
-  apiKey: '3e507f749cfa4015afa4854812165b38'
- });
+
 
 class App extends Component {
-  state={
+  state = {
     input:'',
     imageURL:'',
     box:{},
@@ -29,6 +26,7 @@ class App extends Component {
     }
   }
 
+  //Loading data from backend and storing them in states
   loadUser = (data) => {
     this.setState({
       user:{
@@ -40,6 +38,8 @@ class App extends Component {
       }
     })
   }
+
+  //Calculating coordinates for Box
   calculateFaceLocation = (data) => {
      const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
      const image = document.getElementById('inputimage');
@@ -63,13 +63,33 @@ class App extends Component {
   }
 
   onButtonClick = () =>{
-    
     const {input} = this.state;
     const {displayFace,calculateFaceLocation} = this;
-
     this.setState({imageURL:input});
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, input)     // Don't use this.state.imageURL
-    .then(response => displayFace(calculateFaceLocation(response)))
+    fetch('http://localhost:3000/imagesurl',{
+          method:'post',
+          headers:{'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            input:input
+          })
+        })
+    .then(response => response.json())    
+    .then(response => {
+      if(response) {
+        fetch('http://localhost:3000/images',{
+          method:'put',
+          headers:{'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            id:this.state.user.id
+          })
+        })
+        .then(response => response.json())
+        .then( count => {
+            this.setState(Object.assign(this.state.user,{entries:count}))
+         })
+      }
+      displayFace(calculateFaceLocation(response))
+    })
      .catch(err => console.log(err)) 
   }
 
@@ -87,12 +107,14 @@ class App extends Component {
       <Particles className="particles"
                  params={particles}/>
         {(route === 'signin') ? 
-            <Signin  onRouteChange={onRouteChange}/> 
+            <Signin loadUser = {this.loadUser} onRouteChange={onRouteChange}/> 
         : (route === 'register') ?  
-        <Register loadUser={this.loadUser} onRouteChange={onRouteChange}/> 
+        <Register loadUser = {this.loadUser} onRouteChange={onRouteChange}/> 
         : <div>
             <Navigation onRouteChange={onRouteChange} />
-            <Rank/>
+            <Rank 
+                name={this.state.user.name} 
+                entries={this.state.user.entries}/>
             <ImageLinkForm 
                           onInputChange={onInputChange} 
                           onButtonClick={onButtonClick}/>    
