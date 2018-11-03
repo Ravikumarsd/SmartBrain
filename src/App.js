@@ -98,7 +98,7 @@ class App extends Component {
   render() {
     
     const {onRouteChange,onInputChange,onButtonClick} = this;
-    const{route,imageURL,box} = this.state;
+    const{route,imageURL,box,user} = this.state;
     return (
       <div className="App">
       <Particles className="particles"
@@ -110,8 +110,8 @@ class App extends Component {
         : <div>
             <Navigation onRouteChange={onRouteChange} />
             <Rank 
-                name={this.state.user.name} 
-                entries={this.state.user.entries}/>
+                name={user.name} 
+                entries={user.entries}/>
             <ImageLinkForm 
                           onInputChange={onInputChange} 
                           onButtonClick={onButtonClick}/>    
