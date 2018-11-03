@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import Navigation from './components/Navigation/Navigation';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
-import Rank from './components/Rank/Rank';
 import Particles from 'react-particles-js';
 import { particles } from './particles'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
@@ -99,7 +98,7 @@ class App extends Component {
     
     const {onRouteChange,onInputChange,onButtonClick} = this;
     const{route,imageURL,box,user} = this.state;
-    
+
     return (
       <div className="App">
       <Particles className="particles"
@@ -110,9 +109,7 @@ class App extends Component {
         <Register loadUser = {this.loadUser} onRouteChange={onRouteChange}/> 
         : <div>
             <Navigation onRouteChange={onRouteChange} />
-            <Rank 
-                name={user.name} 
-                entries={user.entries}/>
+            
             <ImageLinkForm 
                           onInputChange={onInputChange} 
                           onButtonClick={onButtonClick}/>    
